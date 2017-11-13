@@ -11,4 +11,6 @@ import RealmSwift
 
 class Room: Object {
     @objc dynamic var name = ""
+    
+    let furniture = LinkingObjects(fromType: Furniture.self, property: "room")
 }
