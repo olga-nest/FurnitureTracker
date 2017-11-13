@@ -20,7 +20,7 @@ class MasterViewController: UITableViewController {
         super.viewDidLoad()
         updateRealmResults()
         
-        navigationItem.leftBarButtonItem = editButtonItem
+   //     navigationItem.leftBarButtonItem = editButtonItem
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addRoom(_:)))
         navigationItem.rightBarButtonItem = addButton
@@ -57,11 +57,7 @@ class MasterViewController: UITableViewController {
                 }
                 
                 self.tableView.reloadData()
-                
-            //    let row = self.objects.count
-//                let indexPath = IndexPath(row: 0, section: 1)
-//                self.tableView.insertRows(at: [indexPath], with: .automatic)
-            }
+                }
         }
     
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -116,7 +112,7 @@ class MasterViewController: UITableViewController {
             objects.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+            
         }
     }
     
