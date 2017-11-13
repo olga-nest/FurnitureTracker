@@ -7,39 +7,31 @@
 //
 
 import UIKit
+import RealmSwift
 
-class DetailViewController: UIViewController {
-
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
-
-
-    func configureView() {
-        // Update the user interface for the detail item.
-        if let detail = detailItem {
-            if let label = detailDescriptionLabel {
-                label.text = detail.description
-            }
-        }
-    }
-
+class DetailViewController: UITableViewController {
+    
+    var furnitureArr = [Any]()
+    let realm = try! Realm()
+    var room: Room!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        configureView()
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFurniture(_:)))
+        navigationItem.rightBarButtonItem = addButton
+        
+        navigationItem.title = room.name
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        //  updateRealmResults(@objc )
     }
-
-    var detailItem: NSDate? {
-        didSet {
-            // Update the view.
-            configureView()
-        }
+    
+    
+    @objc func addFurniture(_ sender: Any){
     }
-
 
 }
-
