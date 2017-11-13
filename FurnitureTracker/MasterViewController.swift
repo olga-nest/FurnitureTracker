@@ -18,9 +18,10 @@ class MasterViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateRealmResults()
         
-        let results = realm.objects(Room.self)
-        objects = Array(results)
+//        let results = realm.objects(Room.self)
+//        objects = Array(results)
         
         navigationItem.leftBarButtonItem = editButtonItem
 
@@ -35,6 +36,7 @@ class MasterViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+        updateRealmResults()
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,11 +61,14 @@ class MasterViewController: UITableViewController {
                 
                 try! self.realm.write {
                     self.realm.add(room)
+                    self.updateRealmResults()
                 }
                 
-                let row = self.objects.count - 1
-                let indexPath = IndexPath(row: row, section: 1)
-                self.tableView.insertRows(at: [indexPath], with: .automatic)
+                self.tableView.reloadData()
+                
+            //    let row = self.objects.count
+//                let indexPath = IndexPath(row: 0, section: 1)
+//                self.tableView.insertRows(at: [indexPath], with: .automatic)
             }
         }
     
@@ -118,6 +123,11 @@ class MasterViewController: UITableViewController {
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
+    }
+    
+    func updateRealmResults() {
+        let results = realm.objects(Room.self)
+        objects = Array(results)
     }
 
 
