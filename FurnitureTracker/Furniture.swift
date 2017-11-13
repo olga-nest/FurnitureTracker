@@ -7,9 +7,9 @@
 //
 
 import Foundation
-import Realm
+import RealmSwift
 
-class Furniture: RLMObject {
+class Furniture: Object {
     @objc dynamic var name = ""
     @objc dynamic var room: Room!
 }
