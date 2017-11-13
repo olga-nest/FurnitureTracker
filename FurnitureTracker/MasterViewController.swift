@@ -7,18 +7,20 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 
 class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     var objects = [Any]()
+    let realm = try! Realm()
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let realm = try! Realm()
+        let results = realm.objects(Room.self)
+        objects = Array(results)
         
         navigationItem.leftBarButtonItem = editButtonItem
 
@@ -54,18 +56,21 @@ class MasterViewController: UITableViewController {
             if  let alertTextField = alert.textFields?.first, alertTextField.text != nil {
                 let room = Room()
                 room.name = alertTextField.text!
+                
+                try! self.realm.write {
+                    self.realm.add(room)
+                }
+                
+                let row = self.objects.count - 1
+                let indexPath = IndexPath(row: row, section: 1)
+                self.tableView.insertRows(at: [indexPath], with: .automatic)
             }
         }
-        
+    
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(okAction)
         alert.addAction(cancelAction)
         present(alert, animated: true)
-        
-        let indexPath = IndexPath(row: 0, section: 0)
-        
-    //    tableView.insertRows(at: [indexPath], with: .automatic)
-        
         
     }
 
@@ -96,8 +101,8 @@ class MasterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 
-        let object = objects[indexPath.row] as! NSDate
-        cell.textLabel!.text = object.description
+        let room = objects[indexPath.row] as! Room
+        cell.textLabel!.text = room.name
         return cell
     }
 
